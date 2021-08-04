@@ -78,6 +78,40 @@ class CSR{
             }
         }
     }
+     bool cycles(int i,vector<bool>&visited)
+    {
+        vector<int>parent(nodes,-1);
+        queue<int>q;
+        q.push(i);
+        visited[i]=true;
+        while (!q.empty())
+        {
+            int x = q.front();
+            q.pop();
+            for (int i = vertex[x]; i < vertex[x + 1]; i++)
+            {
+                if (!visited[edge[i]])
+                {
+                    visited[edge[i]] = true;
+                    q.push(edge[i]);
+                    parent[edge[i]]=x;
+                }
+                else if(parent[x] != edge[i]){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    bool iscyclic(){
+        vector<bool>visited(nodes,false);
+        for(int i=0;i<nodes;i++){
+            if(!visited[i] && cycles(i,visited)){
+                return true;
+            }
+        }
+        return false;
+    }
     int graphcomponent(){
             vector<bool>check(nodes,0);
             int components=0;
@@ -89,6 +123,7 @@ class CSR{
             }
             return components;
     }
+    
 
 };
 int main(){
@@ -104,8 +139,9 @@ int main(){
     for(auto i:result){
         cout<<i<<" ";
     }*/
-    int grapgcomponent = g1.graphcomponent();
-    cout<<grapgcomponent<<endl;
+    /*int grapgcomponent = g1.graphcomponent();
+    cout<<grapgcomponent<<endl;*/
+    cout<<g1.iscyclic()<<endl;
 }
 
 /*
